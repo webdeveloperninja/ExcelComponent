@@ -9,7 +9,7 @@ import { AuthService } from '../../auth.service';
   styleUrls: ['./excel-client.component.scss']
 })
 export class ExcelComponent implements OnInit {
-  private readonly workbookName = 'Book.xlsx';
+  readonly workbookName = 'Book.xlsx';
 
   isLoading = false;
 
