@@ -25,6 +25,12 @@ export class GraphService {
     });
   }
 
+  async getDriveItems(): Promise<MicrosoftGraph.RemoteItem[]> {
+    const result = await this.graphClient.api(`https://graph.microsoft.com/v1.0/me/drive/root/children`).get();
+
+    return result.value;
+  }
+
   async getWorksheets(workBookName: string): Promise<MicrosoftGraph.WorkbookWorksheet[]> {
     const result = await this.graphClient.api(`/me/drive/root:/${workBookName}:/workbook/worksheets`).get();
 

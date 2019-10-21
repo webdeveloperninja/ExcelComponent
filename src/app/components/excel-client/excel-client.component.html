@@ -1,7 +1,15 @@
 <section *ngIf="isAuthenticated else login">
   <mat-progress-bar mode="query" [ngClass]="{'show-bar': isLoading}"></mat-progress-bar>
-  <h4>{{ workbookName}} </h4>
+
+
   <mat-action-list dense>
+    <h3 matSubheader>Workbooks</h3>
+    <mat-list-item *ngFor="let workbook of driveItems" (click)="onWorkbookSelection(workbook)">
+      {{ workbook.name }}
+    </mat-list-item>
+  </mat-action-list>
+
+  <mat-action-list dense *ngIf="workSheets">
     <h3 matSubheader>Worksheets</h3>
     <mat-list-item *ngFor="let worksheet of workSheets" (click)="onWorksheetSelection(worksheet)">
       {{ worksheet.name }}
@@ -17,11 +25,9 @@
     </mat-action-list>
   </div>
 
-  <div *ngIf="rows">
-    <h3 matSubheader>Rows</h3>
-    <!-- Todo build iframe url from selected workbook -->
-    <iframe style="width: 100%" width="402" height="346" frameborder="0" scrolling="no"
-      src="https://robertdeveloper-my.sharepoint.com/personal/robert_robertdeveloper_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc={b1590369-0380-4d5b-95ae-648b3f03fc89}&action=embedview&wdDownloadButton=True&wdInConfigurator=True"></iframe>
+  <div class="rows" *ngIf="rows">
+    <iframe style="width: 100%;" width="700" height="147" frameborder="0" scrolling="no"
+      [src]="iframeUrl | safe"></iframe>
   </div>
 </section>
 

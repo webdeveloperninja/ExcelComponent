@@ -10,12 +10,10 @@ import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { environment } from 'src/environments/environment';
 import { ExcelComponent } from './components/excel-client/excel-client.component';
 import { ThemeModule } from './theme.module';
-
-library.add(faExternalLinkAlt);
-library.add(faUserCircle);
+import { SafePipe } from './safe.pipe';
 
 @NgModule({
-  declarations: [ExcelComponent],
+  declarations: [ExcelComponent, SafePipe],
   imports: [
     RouterModule.forRoot([]),
     ThemeModule,

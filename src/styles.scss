@@ -1,1 +1,33 @@
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+
+@mixin equalHeight {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+html {
+  height: 100vh;
+  @include equalHeight();
+}
+
+body {
+  @include equalHeight();
+}
+
+excel-client {
+  @include equalHeight();
+
+  section {
+    @include equalHeight();
+
+    .rows {
+      @include equalHeight();
+
+      iframe {
+        @include equalHeight();
+      }
+    }
+  }
+}

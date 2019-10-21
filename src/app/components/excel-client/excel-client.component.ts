@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { WorkbookWorksheet, WorkbookTable, WorkbookTableRow } from '@microsoft/microsoft-graph-types';
+import { WorkbookWorksheet, WorkbookTable, WorkbookTableRow, RemoteItem, BaseItem } from '@microsoft/microsoft-graph-types';
 import { GraphService } from '../../graph.service';
 import { AuthService } from '../../auth.service';
 
@@ -21,8 +21,35 @@ export class ExcelComponent implements OnInit {
   selectedTable: WorkbookTable;
 
   rows: WorkbookTableRow[];
+  driveItems: BaseItem[];
+  selectedDriveItem: BaseItem;
+
+  get webUrl() {
+    return this.selectedDriveItem.webUrl;
+  }
+
+  get eTagGuid() {
+    return this.selectedDriveItem.eTag.match(/\{(.*?)\}/)[0];
+  }
+
+  get iframeUrl() {
+    // tslint:disable-next-line:max-line-length
+    return `https://robertdeveloper-my.sharepoint.com/personal/robert_robertdeveloper_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=${this.eTagGuid}&action=embedview&Item=${this.selectedTable.name}&wdDownloadButton=True&wdInConfigurator=True`;
+  }
 
   constructor(private graphService: GraphService, private readonly authService: AuthService) {}
+
+  async onWorkbookSelection(item: RemoteItem) {
+    console.log('item', item);
+    this.isLoading = true;
+
+    this.selectedDriveItem = item;
+    console.log(this.eTagGuid);
+
+    this.workSheets = await this.graphService.getWorksheets(this.selectedDriveItem.name);
+
+    this.isLoading = false;
+  }
 
   async onTableSelection(table: WorkbookTable) {
     this.isLoading = true;
@@ -34,6 +61,7 @@ export class ExcelComponent implements OnInit {
   }
 
   async onWorksheetSelection(worksheet: WorkbookWorksheet) {
+    console.log('worsheet', worksheet);
     this.isLoading = true;
 
     this.selectedWorksheet = worksheet;
@@ -44,7 +72,12 @@ export class ExcelComponent implements OnInit {
 
   async ngOnInit() {
     this.isLoading = true;
-    this.workSheets = await this.graphService.getWorksheets(this.workbookName);
+
+    const driveItems = await this.graphService.getDriveItems();
+
+    const excelBooks = driveItems.filter(item => item.name.endsWith('xlsx'));
+    this.driveItems = excelBooks;
+
     this.isLoading = false;
   }
 
