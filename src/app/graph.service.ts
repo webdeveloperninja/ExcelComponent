@@ -26,10 +26,8 @@ export class GraphService {
   }
 
   async getWorksheets(workBookName: string): Promise<MicrosoftGraph.WorkbookWorksheet[]> {
-    try {
-      const result = await this.graphClient.api(`/me/drive/root:/${workBookName}:/workbook/worksheets`).get();
-      console.log(result);
-      return result.value;
-    } catch (error) {}
+    const result = await this.graphClient.api(`/me/drive/root:/${workBookName}:/workbook/worksheets`).get();
+
+    return result.value;
   }
 }

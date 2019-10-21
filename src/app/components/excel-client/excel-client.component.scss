@@ -1,0 +1,7 @@
+mat-progress-bar {
+  opacity: 0;
+
+  &.show-bar {
+    opacity: 1;
+  }
+}

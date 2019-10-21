@@ -15,11 +15,13 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatListModule } from '@angular/material/list';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   exports: [
     MatButtonModule,
     MatListModule,
+    MatProgressBarModule,
     MatDialogModule,
     MatToolbarModule,
     MatIconModule,

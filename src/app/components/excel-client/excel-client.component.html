@@ -1,6 +1,12 @@
-<button *ngIf="!isAuthenticated" mat-stroked-button color="primary" (click)="signIn()">Login</button>
+<section *ngIf="isAuthenticated else login">
+  <mat-progress-bar mode="query" [ngClass]="{'show-bar': isLoading}"></mat-progress-bar>
 
-<mat-list dense>
-  <h3 matSubheader>Worksheets</h3>
-  <mat-list-item *ngFor="let worksheet of workSheets"> {{ worksheet.name }} </mat-list-item>
-</mat-list>
+  <mat-list dense>
+    <h3 matSubheader>Worksheets</h3>
+    <mat-list-item *ngFor="let worksheet of workSheets"> {{ worksheet.name }} </mat-list-item>
+  </mat-list>
+</section>
+
+<ng-template #login>
+  <button mat-stroked-button color="primary" (click)="signIn()">Login</button>
+</ng-template>
