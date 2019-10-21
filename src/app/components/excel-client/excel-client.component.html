@@ -1,10 +1,15 @@
 <section *ngIf="isAuthenticated else login">
   <mat-progress-bar mode="query" [ngClass]="{'show-bar': isLoading}"></mat-progress-bar>
 
-  <mat-list dense>
+  <mat-action-list dense>
     <h3 matSubheader>Worksheets</h3>
-    <mat-list-item *ngFor="let worksheet of workSheets"> {{ worksheet.name }} </mat-list-item>
-  </mat-list>
+    <mat-list-item *ngFor="let worksheet of workSheets" (click)="onWorksheetSelection(worksheet)">
+      {{ worksheet.name }}
+    </mat-list-item>
+  </mat-action-list>
+  <pre>
+    {{ selectedWorksheet | json }}
+  </pre>
 </section>
 
 <ng-template #login>

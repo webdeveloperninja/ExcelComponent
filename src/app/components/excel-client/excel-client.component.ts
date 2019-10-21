@@ -13,8 +13,13 @@ export class ExcelComponent implements OnInit {
 
   readonly isAuthenticated = this.authService.authenticated;
   workSheets: WorkbookWorksheet[];
+  selectedWorksheet: WorkbookWorksheet;
 
   constructor(private graphService: GraphService, private readonly authService: AuthService) {}
+
+  onWorksheetSelection(worksheet: WorkbookWorksheet) {
+    this.selectedWorksheet = worksheet;
+  }
 
   async ngOnInit() {
     this.isLoading = true;
