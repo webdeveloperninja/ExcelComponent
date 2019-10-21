@@ -9,8 +9,6 @@ import { AuthService } from '../../auth.service';
   styleUrls: ['./excel-client.component.scss']
 })
 export class ExcelComponent implements OnInit {
-  readonly workbookName = 'Book.xlsx';
-
   isLoading = false;
 
   readonly isAuthenticated = this.authService.authenticated;
@@ -55,17 +53,16 @@ export class ExcelComponent implements OnInit {
     this.isLoading = true;
     this.selectedTable = table;
 
-    this.rows = await this.graphService.getRows(this.workbookName, this.selectedWorksheet.name, this.selectedTable.name);
+    this.rows = await this.graphService.getRows(this.selectedDriveItem.name, this.selectedWorksheet.name, this.selectedTable.name);
 
     this.isLoading = false;
   }
 
   async onWorksheetSelection(worksheet: WorkbookWorksheet) {
-    console.log('worsheet', worksheet);
     this.isLoading = true;
 
     this.selectedWorksheet = worksheet;
-    this.tables = await this.graphService.getTables(this.workbookName, this.selectedWorksheet.name);
+    this.tables = await this.graphService.getTables(this.selectedDriveItem.name, this.selectedWorksheet.name);
 
     this.isLoading = false;
   }
