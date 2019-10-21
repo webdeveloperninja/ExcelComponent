@@ -4,16 +4,20 @@ import { Client } from '@microsoft/microsoft-graph-client';
 
 import { User } from '@microsoft/microsoft-graph-types';
 import { environment } from 'src/environments/environment';
+import { GraphFactory } from './graph.factory';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private readonly graphClient: Client;
   public authenticated: boolean;
   public user: User;
 
-  constructor(private msalService: MsalService) {
+  constructor(private readonly msalService: MsalService, graphFactory: GraphFactory) {
     this.authenticated = this.msalService.getUser() != null;
+    this.graphClient = graphFactory.create();
+
     this.getUser().then(user => {
       this.user = user;
     });
@@ -42,23 +46,6 @@ export class AuthService {
       return null;
     }
 
-    const graphClient = Client.init({
-      authProvider: async done => {
-        const token = await this.getAccessToken().catch(reason => {
-          done(reason, null);
-        });
-
-        if (token) {
-          done(null, token);
-        } else {
-          done('Could not get an access token', null);
-        }
-      }
-    });
-
-    // Get the user from Graph (GET /me)
-    const graphUser = (await graphClient.api('/me').get()) as User;
-
-    return graphUser;
+    return this.graphClient.api('/me').get();
   }
 }
