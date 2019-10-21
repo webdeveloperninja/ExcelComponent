@@ -1,15 +1,15 @@
 import { DoBootstrap, Injector, NgModule } from '@angular/core';
 import { createCustomElement } from '@angular/elements';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
 import { MsalModule } from '@azure/msal-angular';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faUserCircle } from '@fortawesome/free-regular-svg-icons';
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ExcelComponent } from './components/excel-client/excel-client.component';
-import { RouterModule } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { ExcelComponent } from './components/excel-client/excel-client.component';
+import { ThemeModule } from './theme.module';
 
 library.add(faExternalLinkAlt);
 library.add(faUserCircle);
@@ -18,12 +18,12 @@ library.add(faUserCircle);
   declarations: [ExcelComponent],
   imports: [
     RouterModule.forRoot([]),
+    ThemeModule,
     BrowserModule,
-    NgbModule,
-    FontAwesomeModule,
     MsalModule.forRoot({
       clientID: environment.appId
-    })
+    }),
+    BrowserAnimationsModule
   ],
   entryComponents: [ExcelComponent]
 })

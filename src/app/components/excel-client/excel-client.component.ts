@@ -8,6 +8,7 @@ import { AuthService } from '../../auth.service';
   templateUrl: './excel-client.component.html'
 })
 export class ExcelComponent implements OnInit {
+  readonly isAuthenticated = this.authService.authenticated;
   workSheets: WorkbookWorksheet[];
 
   constructor(private graphService: GraphService, private readonly authService: AuthService) {}

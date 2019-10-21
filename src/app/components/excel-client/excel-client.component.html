@@ -1,4 +1,6 @@
-<pre>
-    {{ workSheets | json }}
-  </pre>
-<a href="javascript:undefined" class="btn btn-primary btn-large" role="button" (click)="signIn()">Click here to</a>
+<button *ngIf="!isAuthenticated" mat-stroked-button color="primary" (click)="signIn()">Login</button>
+
+<mat-list dense>
+  <h3 matSubheader>Worksheets</h3>
+  <mat-list-item *ngFor="let worksheet of workSheets"> {{ worksheet.name }} </mat-list-item>
+</mat-list>
