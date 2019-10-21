@@ -36,4 +36,12 @@ export class GraphService {
 
     return result.value;
   }
+
+  async getRows(workBookName: string, workSheetName: string, tableName: string): Promise<MicrosoftGraph.WorkbookTableRow[]> {
+    const result = await this.graphClient
+      .api(`/me/drive/root:/${workBookName}:/workbook/worksheets/${workSheetName}/tables/${tableName}/rows`)
+      .get();
+
+    return result.value;
+  }
 }

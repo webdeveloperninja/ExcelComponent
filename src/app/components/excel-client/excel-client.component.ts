@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { WorkbookWorksheet, WorkbookTable } from '@microsoft/microsoft-graph-types';
+import { WorkbookWorksheet, WorkbookTable, WorkbookTableRow } from '@microsoft/microsoft-graph-types';
 import { GraphService } from '../../graph.service';
 import { AuthService } from '../../auth.service';
 
@@ -18,8 +18,20 @@ export class ExcelComponent implements OnInit {
   selectedWorksheet: WorkbookWorksheet;
 
   tables: WorkbookTable[];
+  selectedTable: WorkbookTable;
+
+  rows: WorkbookTableRow[];
 
   constructor(private graphService: GraphService, private readonly authService: AuthService) {}
+
+  async onTableSelection(table: WorkbookTable) {
+    this.isLoading = true;
+    this.selectedTable = table;
+
+    this.rows = await this.graphService.getRows(this.workbookName, this.selectedWorksheet.name, this.selectedTable.name);
+
+    this.isLoading = false;
+  }
 
   async onWorksheetSelection(worksheet: WorkbookWorksheet) {
     this.isLoading = true;
