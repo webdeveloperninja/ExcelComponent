@@ -30,4 +30,10 @@ export class GraphService {
 
     return result.value;
   }
+
+  async getTables(workBookName: string, workSheetName: string): Promise<MicrosoftGraph.WorkbookTable[]> {
+    const result = await this.graphClient.api(`/me/drive/root:/${workBookName}:/workbook/worksheets/${workSheetName}/tables`).get();
+
+    return result.value;
+  }
 }

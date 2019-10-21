@@ -10,6 +10,11 @@
   <pre>
     {{ selectedWorksheet | json }}
   </pre>
+
+  <div *ngIf="tables">
+    <p>Tables</p>
+    {{ tables | json }}
+  </div>
 </section>
 
 <ng-template #login>

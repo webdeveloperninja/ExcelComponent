@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { WorkbookWorksheet } from '@microsoft/microsoft-graph-types';
+import { WorkbookWorksheet, WorkbookTable } from '@microsoft/microsoft-graph-types';
 import { GraphService } from '../../graph.service';
 import { AuthService } from '../../auth.service';
 
@@ -9,21 +9,30 @@ import { AuthService } from '../../auth.service';
   styleUrls: ['./excel-client.component.scss']
 })
 export class ExcelComponent implements OnInit {
+  private readonly workbookName = 'Book.xlsx';
+
   isLoading = false;
 
   readonly isAuthenticated = this.authService.authenticated;
   workSheets: WorkbookWorksheet[];
   selectedWorksheet: WorkbookWorksheet;
 
+  tables: WorkbookTable[];
+
   constructor(private graphService: GraphService, private readonly authService: AuthService) {}
 
-  onWorksheetSelection(worksheet: WorkbookWorksheet) {
+  async onWorksheetSelection(worksheet: WorkbookWorksheet) {
+    this.isLoading = true;
+
     this.selectedWorksheet = worksheet;
+    this.tables = await this.graphService.getTables(this.workbookName, this.selectedWorksheet.name);
+
+    this.isLoading = false;
   }
 
   async ngOnInit() {
     this.isLoading = true;
-    this.workSheets = await this.graphService.getWorksheets('Book.xlsx');
+    this.workSheets = await this.graphService.getWorksheets(this.workbookName);
     this.isLoading = false;
   }
 
