@@ -4,14 +4,16 @@
 
   <mat-action-list dense>
     <h3 matSubheader>Workbooks</h3>
-    <mat-list-item *ngFor="let workbook of driveItems" (click)="onWorkbookSelection(workbook)">
+    <mat-list-item *ngFor="let workbook of driveItems" (click)="onWorkbookSelection(workbook)"
+      [ngClass]="{'active': selectedDriveItem && workbook.name === selectedDriveItem.name}">
       {{ workbook.name }}
     </mat-list-item>
   </mat-action-list>
 
   <mat-action-list dense *ngIf="workSheets">
     <h3 matSubheader>Worksheets</h3>
-    <mat-list-item *ngFor="let worksheet of workSheets" (click)="onWorksheetSelection(worksheet)">
+    <mat-list-item *ngFor="let worksheet of workSheets" (click)="onWorksheetSelection(worksheet)"
+      [ngClass]="{'active': selectedWorksheet && worksheet.name === selectedWorksheet.name}">
       {{ worksheet.name }}
     </mat-list-item>
   </mat-action-list>
@@ -19,7 +21,8 @@
   <div *ngIf="tables">
     <mat-action-list dense>
       <h3 matSubheader>Tables for sheet {{ selectedWorksheet.name }}</h3>
-      <mat-list-item *ngFor="let table of tables" (click)="onTableSelection(table)">
+      <mat-list-item *ngFor="let table of tables" (click)="onTableSelection(table)"
+        [ngClass]="{'active': selectedTable && table.name === selectedTable.name}">
         {{ table.name }}
       </mat-list-item>
     </mat-action-list>

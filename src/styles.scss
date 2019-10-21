@@ -31,3 +31,9 @@ excel-client {
     }
   }
 }
+
+mat-list-item {
+  &.active {
+    border-left: 3px solid green;
+  }
+}
