@@ -9,15 +9,14 @@ import { AuthService } from '../../auth.service';
   styleUrls: ['./excel-client.component.scss']
 })
 export class ExcelComponent implements OnInit {
+  readonly isAuthenticated = this.authService.authenticated;
+
   isLoading = false;
 
-  readonly isAuthenticated = this.authService.authenticated;
   workSheets: WorkbookWorksheet[];
   selectedWorksheet: WorkbookWorksheet;
-
   tables: WorkbookTable[];
   selectedTable: WorkbookTable;
-
   rows: WorkbookTableRow[];
   driveItems: BaseItem[];
   selectedDriveItem: BaseItem;
@@ -38,12 +37,13 @@ export class ExcelComponent implements OnInit {
   constructor(private graphService: GraphService, private readonly authService: AuthService) {}
 
   async onWorkbookSelection(item: RemoteItem) {
-    console.log('item', item);
     this.isLoading = true;
 
     this.selectedDriveItem = item;
-    console.log(this.eTagGuid);
-
+    this.selectedWorksheet = null;
+    this.workSheets = null;
+    this.selectedTable = null;
+    this.tables = null;
     this.workSheets = await this.graphService.getWorksheets(this.selectedDriveItem.name);
 
     this.isLoading = false;
@@ -51,8 +51,8 @@ export class ExcelComponent implements OnInit {
 
   async onTableSelection(table: WorkbookTable) {
     this.isLoading = true;
-    this.selectedTable = table;
 
+    this.selectedTable = table;
     this.rows = await this.graphService.getRows(this.selectedDriveItem.name, this.selectedWorksheet.name, this.selectedTable.name);
 
     this.isLoading = false;
@@ -62,6 +62,8 @@ export class ExcelComponent implements OnInit {
     this.isLoading = true;
 
     this.selectedWorksheet = worksheet;
+    this.selectedTable = null;
+    this.tables = null;
     this.tables = await this.graphService.getTables(this.selectedDriveItem.name, this.selectedWorksheet.name);
 
     this.isLoading = false;
@@ -71,7 +73,6 @@ export class ExcelComponent implements OnInit {
     this.isLoading = true;
 
     const driveItems = await this.graphService.getDriveItems();
-
     const excelBooks = driveItems.filter(item => item.name.endsWith('xlsx'));
     this.driveItems = excelBooks;
 

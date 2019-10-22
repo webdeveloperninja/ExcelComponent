@@ -1,5 +1,8 @@
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 
+.mat-subheader {
+  color: rgba(0, 0, 0, .87) !important;
+}
 
 @mixin equalHeight {
   display: flex;

@@ -1,7 +1,6 @@
 <section *ngIf="isAuthenticated else login">
   <mat-progress-bar mode="query" [ngClass]="{'show-bar': isLoading}"></mat-progress-bar>
 
-
   <mat-action-list dense>
     <h3 matSubheader>Workbooks</h3>
     <mat-list-item *ngFor="let workbook of driveItems" (click)="onWorkbookSelection(workbook)"
@@ -18,20 +17,21 @@
     </mat-list-item>
   </mat-action-list>
 
-  <div *ngIf="tables">
-    <mat-action-list dense>
-      <h3 matSubheader>Tables for sheet {{ selectedWorksheet.name }}</h3>
-      <mat-list-item *ngFor="let table of tables" (click)="onTableSelection(table)"
-        [ngClass]="{'active': selectedTable && table.name === selectedTable.name}">
-        {{ table.name }}
-      </mat-list-item>
-    </mat-action-list>
-  </div>
+  <mat-action-list dense *ngIf="tables?.length > 0">
+    <h3 matSubheader>Tables for sheet {{ selectedWorksheet.name }}</h3>
+    <mat-list-item *ngFor="let table of tables" (click)="onTableSelection(table)"
+      [ngClass]="{'active': selectedTable && table.name === selectedTable.name}">
+      {{ table.name }}
+    </mat-list-item>
+  </mat-action-list>
+  <mat-list dense *ngIf="tables?.length == 0">
+    <h3 matSubheader>No tables</h3>
+  </mat-list>
 
-  <div class="rows" *ngIf="rows">
+  <mat-card class="rows" *ngIf="rows && selectedTable">
     <iframe style="width: 100%;" width="700" height="147" frameborder="0" scrolling="no"
       [src]="iframeUrl | safe"></iframe>
-  </div>
+  </mat-card>
 </section>
 
 <ng-template #login>

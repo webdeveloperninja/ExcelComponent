@@ -11,5 +11,4 @@ const concat = require('concat');
   await fs.ensureDir('elements');
   await concat(files, 'elements/elements.js');
   await fs.copyFile('./dist/graph-tutorial/styles.css', 'elements/styles.css');
-  await fs.copy('./dist/graph-tutorial/assets/', 'elements/assets/');
 })();
